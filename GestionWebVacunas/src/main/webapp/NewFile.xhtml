@@ -1,27 +1,103 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p= "http://primefaces.org/ui"> 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
 
-<h:head></h:head> 
-<body onload="#{controladorVacuna.inicializarVacunas()}" > 
-	<h1>Hola Mundo.</h1>
-	 <h:form>
-        <p:dataTable var="vacuna" value="#{controladorVacuna.lstGesvacVacuna}" emptyMessage="No existen datos." >
-            <p:column headerText="Codigo">
-                <h:outputText value="#{vacuna.id}" />
-            </p:column>
+<h:head></h:head>
+<body onload="#{controladorVacuna.inicializarVacunas()}">
+	<div align="center">
+		<h1>Hola Mundo.</h1>
+		<h:form id="frmIngreso">
+			<p:growl id="growl" showDetail="true" />
+			<p:panel header="Ingreso de datos">
+				<p:panelGrid columns="2" styleClass="ui-noborder">
+					<p:outputLabel value="Ingrese Marca" />
+					<p:inputText value="#{controladorVacuna.objGesvacVacuna.marca}"
+						required="true" requiredMessage="Marca es obligatoria" />
+					<p:outputLabel value="Ingrese Cantidad" />
+					<p:inputNumber
+						value="#{controladorVacuna.objGesvacVacuna.cantidad}" minValue="1"
+						required="true" requiredMessage="Cantidad Obligatoria" />
+				</p:panelGrid>
+				<p:commandButton value="Ingresar Datos"
+					actionListener="#{controladorVacuna.ingresarVacuna()}"
+					update="@form :frmIngresados">
+					<p:confirm header="Confirmar"
+						message="Esta seguro de ingresar la información?"
+						icon="pi pi-exclamation-triangle" />
+				</p:commandButton>
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+					responsive="true" width="350">
+					<p:commandButton value="Si" type="button"
+						styleClass="ui-confirmdialog-yes" />
+					<p:commandButton value="No" type="button"
+						styleClass="ui-confirmdialog-no ui-button-flat" />
+				</p:confirmDialog>
+			</p:panel>
+		</h:form>
+		<h:form id="frmIngresados">
+			<p:panel header="Datos Ingresados">
+				<p:dataTable var="vacuna" id="tblVacunas" editable="true"
+					value="#{controladorVacuna.lstGesvacVacuna}"
+					emptyMessage="No existen datos.">
+					<p:ajax event="rowEdit" listener="#{controladorVacuna.onCellEdit}"
+						update=":frmIngreso:growl" />
+					<p:ajax event="rowEditCancel"
+						listener="#{controladorVacuna.onRowCancel}"
+						update=":frmIngreso:growl" />
+					<p:column headerText="Codigo">
+						<p:outputLabel value="#{vacuna.id}">
+							<f:convertNumber maxFractionDigits="0" />
+						</p:outputLabel>
+					</p:column>
 
-            <p:column headerText="Nombre">
-                <h:outputText value="#{vacuna.marca}" />
-            </p:column>
+					<p:column headerText="Nombre">
+						<p:outputLabel value="#{vacuna.marca}" />
+					</p:column>
 
-            <p:column headerText="Stock">
-                <h:outputText value="#{vacuna.cantidad}" />
-            </p:column>
-        </p:dataTable>
-    </h:form>
-</body> 
+					<p:column headerText="Stock">
+
+						<p:cellEditor>
+							<f:facet name="output">
+								<p:outputLabel value="#{vacuna.cantidad}">
+									<f:convertNumber maxFractionDigits="0" />
+								</p:outputLabel>
+							</f:facet>
+							<f:facet name="input">
+								<p:inputNumber value="#{vacuna.cantidad}" style="width:900%" />
+							</f:facet>
+						</p:cellEditor>
+
+
+
+
+
+					</p:column>
+					<p:column style="width:6rem">
+						<p:rowEditor editTitle="Edit Row" cancelTitle="Cancel Edit"
+							saveTitle="Save Row" />
+					</p:column>
+					<p:column headerText="Eliminar">
+						<p:commandButton icon="ui-icon-trash"
+							actionListener="#{controladorVacuna.eliminarVacuna(vacuna)}"
+							update="@form:tblVacunas frmIngreso:growl">
+							<p:confirm header="Confirmar"
+								message="Esta seguro de eliminar la información?"
+								icon="pi pi-exclamation-triangle" />
+						</p:commandButton>
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+							responsive="true" width="350">
+							<p:commandButton value="Si" type="button"
+								styleClass="ui-confirmdialog-yes" />
+							<p:commandButton value="No" type="button"
+								styleClass="ui-confirmdialog-no ui-button-flat" />
+						</p:confirmDialog>
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+		</h:form>
+	</div>
+</body>
 </html>
