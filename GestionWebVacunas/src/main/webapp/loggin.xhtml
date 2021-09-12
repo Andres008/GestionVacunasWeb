@@ -22,7 +22,7 @@
 }
 </style>
 </h:head>
-<body>
+<body onload="#{controllerUsrUsuario.inicializarUsuario()}">
 	<div id="div_menu" align="left"
 		style="border: 0px groove navy; width: 99.4%; height: 81.9%; position: absolute; top: 0px; left: 5px;">
 		<div id="titulo_header" align="center"
@@ -47,18 +47,18 @@
 								<td><p:panelGrid columns="2" styleClass="ui-noborder">
 										<h:outputText value="Usuario" style="font-weight:bold;" />
 										<h:panelGroup>
-											<p:inputText id="idUsuario" value="" required="true"
+											<p:inputText id="idUsuario" value="#{controllerUsrUsuario.objUsrUsuario.idUsuario}" required="true"
 												requiredMessage="Ingrese su código de usuario" />
 											<p:message for="idUsuario" />
 										</h:panelGroup>
 										<h:outputText value="Clave:" style="font-weight:bold;" />
 										<h:panelGroup>
-											<p:password id="clave" value="" required="true"
+											<p:password id="clave" value="#{controllerUsrUsuario.objUsrUsuario.clave}" required="true"
 												requiredMessage="Se requiere una contraseña" />
 											<p:message for="clave" />
 										</h:panelGroup>
 										<p:outputLabel />
-										<p:commandButton value="Ingresar" update="@form"
+										<p:commandButton value="Ingresar" action="#{controllerUsrUsuario.verificarUsuarioContrasenia()}" update="@form"
 											style="width:150px" icon="ui-icon-newwin" />
 									</p:panelGrid></td>
 							</tr>
