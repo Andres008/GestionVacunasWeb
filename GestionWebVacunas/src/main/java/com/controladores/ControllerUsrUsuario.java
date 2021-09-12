@@ -3,6 +3,7 @@ package com.controladores;
 import java.io.Serializable;
 
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 import com.Utils.ModelUtilJSF;
@@ -21,23 +22,23 @@ public class ControllerUsrUsuario implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	
+
 	private UsrUsuario objUsrUsuario;
-	
+
 	public void inicializarUsuario() {
-		objUsrUsuario= new UsrUsuario();
+		objUsrUsuario = new UsrUsuario();
 	}
-	
+
 	/***
 	 * 
 	 * 
 	 * 
 	 * 
 	 * Servicios
+	 * 
 	 * @return
 	 */
-	
+
 	public String verificarUsuarioContrasenia() {
 		try {
 			Gson json = new Gson();
@@ -47,19 +48,43 @@ public class ControllerUsrUsuario implements Serializable {
 			ClientResponse clientResponse = webResource.accept("application/json").type("application/json")
 					.put(ClientResponse.class, json.toJson(objUsrUsuario));
 			String yourResponse = clientResponse.getEntity(String.class);
-			System.out.println("Respuesta: "+yourResponse);
-			if (yourResponse.contains("Unauthorized")|| yourResponse.isEmpty())
+			System.out.println("Respuesta: " + yourResponse);
+			if (yourResponse.contains("Unauthorized") || yourResponse.isEmpty()) {
 				ModelUtilJSF.mensajeError("Usuario no Authorizado.");
+				return "";
+			}
+			ModelUtilJSF.mensajeInformacion("Usuario Autorizado.");
+			return "menuPrincipal?faces-redirect=true";
+		} catch (Exception e) {
+			if (e.getMessage().contains("Connection refused"))
+				ModelUtilJSF.mensajeError(
+						"Servicio de verificación de usuario no disponible, comuniquese con el administrador.");
 			else
-				ModelUtilJSF.mensajeInformacion("Usuario Autorizado.");
-			return "";
-		}catch (Exception e) {
-			ModelUtilJSF.mensajeError(e.getMessage());
+				ModelUtilJSF.mensajeError(e.getMessage());
+			e.printStackTrace();
 			return "";
 		}
 	}
-	
-	
+
+	/**
+	 * Cierre de sesion.
+	 * 
+	 * @return redireccion a index.xhtml
+	 */
+	public String actionSalirSistema() {
+		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+		return "/loggin.xhtml?faces-redirect=true";
+	}
+
+	/**
+	 * Cierre de sesion.
+	 * 
+	 * @return redireccion a index.xhtml
+	 */
+	public String actionMenuPrincipal() {
+		return "/menuPrincipal?faces-redirect=true";
+	}
+
 	/*****
 	 * 
 	 * 

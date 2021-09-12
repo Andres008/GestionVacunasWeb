@@ -7,6 +7,19 @@
 
 <h:head></h:head>
 <body onload="#{controladorVacuna.inicializarVacunas()}">
+	<div class="card">
+		<h:form>
+			<p:menubar>
+				<f:facet name="options">
+					<div class="ui-input-icon-left p-mr-2">
+						<p:commandButton value="Menú Principal"
+							action="#{controllerUsrUsuario.actionMenuPrincipal()}"
+							update="@form" />
+					</div>
+				</f:facet>
+			</p:menubar>
+		</h:form>
+	</div>
 	<div align="center">
 		<h1>GESTION DE VACUNAS</h1>
 		<h:form id="frmIngreso">
