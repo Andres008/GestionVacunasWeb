@@ -29,9 +29,6 @@ public class ControllerUsrUsuario implements Serializable {
 		objUsrUsuario= new UsrUsuario();
 	}
 	
-	
-	
-	
 	/***
 	 * 
 	 * 
