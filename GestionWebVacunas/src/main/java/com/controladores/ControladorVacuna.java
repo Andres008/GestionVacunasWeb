@@ -46,7 +46,7 @@ public class ControladorVacuna implements Serializable {
 			ClientResponse clientResponse = webResource.accept("application/json").type("application/json")
 					.put(ClientResponse.class, json.toJson(objGesvacVacuna));
 			inicializarVacunas();
-			ModelUtilJSF.mensajeInformacion("Ingreso Correcto");
+			ModelUtilJSF.mensajeInformacion("Actualización Correcta");
 		} catch (Exception e) {
 			ModelUtilJSF.mensajeError("Error al ingresar datos de vacuna. " + e.getMessage());
 		}

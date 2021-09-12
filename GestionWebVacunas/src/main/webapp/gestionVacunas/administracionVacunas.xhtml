@@ -8,7 +8,7 @@
 <h:head></h:head>
 <body onload="#{controladorVacuna.inicializarVacunas()}">
 	<div align="center">
-		<h1>Hola Mundo.</h1>
+		<h1>GESTION DE VACUNAS</h1>
 		<h:form id="frmIngreso">
 			<p:growl id="growl" showDetail="true" />
 			<p:panel header="Ingreso de datos">
@@ -38,12 +38,12 @@
 			</p:panel>
 		</h:form>
 		<h:form id="frmIngresados">
-			<p:panel header="Datos Ingresados">
+			<p:panel header="Datos Ingresados" id="pnlVacunas">
 				<p:dataTable var="vacuna" id="tblVacunas" editable="true"
 					value="#{controladorVacuna.lstGesvacVacuna}"
 					emptyMessage="No existen datos.">
 					<p:ajax event="rowEdit" listener="#{controladorVacuna.onCellEdit}"
-						update=":frmIngreso:growl" />
+						update="@form:tblVacunas :frmIngreso:growl" process="@this" />
 					<p:ajax event="rowEditCancel"
 						listener="#{controladorVacuna.onRowCancel}"
 						update=":frmIngreso:growl" />
@@ -52,13 +52,10 @@
 							<f:convertNumber maxFractionDigits="0" />
 						</p:outputLabel>
 					</p:column>
-
 					<p:column headerText="Nombre">
 						<p:outputLabel value="#{vacuna.marca}" />
 					</p:column>
-
 					<p:column headerText="Stock">
-
 						<p:cellEditor>
 							<f:facet name="output">
 								<p:outputLabel value="#{vacuna.cantidad}">
@@ -69,11 +66,6 @@
 								<p:inputNumber value="#{vacuna.cantidad}" style="width:900%" />
 							</f:facet>
 						</p:cellEditor>
-
-
-
-
-
 					</p:column>
 					<p:column style="width:6rem">
 						<p:rowEditor editTitle="Edit Row" cancelTitle="Cancel Edit"

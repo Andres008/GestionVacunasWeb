@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Gestión Personas</title>
+	<script type="text/javascript">
+    PrimeFaces.locales['es'] = {
+        closeText: 'Cerrar',
+        prevText: 'Anterior',
+        nextText: 'Siguiente',
+        monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+        monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+        dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+        dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+        dayNamesMin: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
+        weekHeader: 'Semana',
+        firstDay: 1,
+        isRTL: false,
+        showMonthAfterYear: false,
+        yearSuffix: '',
+        timeOnlyTitle: 'Sólo hora',
+        timeText: 'Tiempo',
+        hourText: 'Hora',
+        minuteText: 'Minuto',
+        secondText: 'Segundo',
+        currentText: 'Fecha actual',
+        ampm: false,
+        month: 'Mes',
+        week: 'Semana',
+        day: 'Día',
+        allDayText: 'Todo el día',
+        today: 'Hoy',
+        clear: 'Claro'
+    };
+</script>
+</h:head>
+<body onload="#{controladorPersona.inicializarPersona()}">
+	<div align="center">
+		<h1>GESTION DE PERSONAS</h1>
+		<h:form id="frmPrincipal">
+			<p:growl id="growl" showDetail="true" />
+			<p:panel header="Registro de Información">
+				<p:commandButton value="Ingresar Información"
+					actionListener="#{controladorPersona.ingresarPersona()}"
+					update="@form" />
+				<p:panelGrid columns="4" styleClass="ui-noborder">
+					<p:outputLabel value="Cédula" />
+					<p:inputMask mask="9999999999"
+						value="#{controladorPersona.objGesvacPersona.cedula}"
+						placeholder="Cédula" />
+					<p:outputLabel value="Nombres" />
+					<p:inputText value="#{controladorPersona.objGesvacPersona.nombres}"
+						placeholder="Nombres" />
+					<p:outputLabel value="Apellidos" />
+					<p:inputText
+						value="#{controladorPersona.objGesvacPersona.apellidos}"
+						placeholder="Apellidos" />
+					<p:outputLabel value="Fecha de nacimiento" />
+					<p:calendar maxdate="today"
+						value="#{controladorPersona.va_fecha_nacimiento}" locale="es"
+						pattern="dd/MM/yyyy" placeholder="dia/mes/año" />
+					<p:outputLabel value="Correo Electrónico" />
+					<p:inputText
+						value="#{controladorPersona.objGesvacPersona.correoElectronico}"
+						placeholder="Correo Electrónico" />
+					<p:outputLabel value="Ocupación" />
+					<p:inputText
+						value="#{controladorPersona.objGesvacPersona.ocupacion}"
+						placeholder="Ocupación" />
+					<p:outputLabel value="Dirección" />
+					<p:inputTextarea
+						value="#{controladorPersona.objGesvacPersona.direcion}"
+						placeholder="Direccion" autoResize="true" cols="20" />
+				</p:panelGrid>
+				<p:panel header="Enfermedades">
+					<p:panelGrid columns="5" styleClass="ui-noborder">
+						<p:outputLabel value="Tipo Enfermedad" />
+						<p:selectOneMenu
+							value="#{controladorPersona.objGesvacPersonaEnfermedad.gesvacEnfermedad.id}">
+							<f:selectItem itemLabel="Seleccione Enfermedad"
+								noSelectionOption="true" />
+							<f:selectItem itemLabel="DIABETIS" itemValue="1" />
+							<f:selectItem itemLabel="HIPERTENCIÓN" itemValue="2" />
+						</p:selectOneMenu>
+						<p:outputLabel value="Estado Enfermedad" />
+						<p:selectOneMenu
+							value="#{controladorPersona.objGesvacPersonaEnfermedad.gesvacEstadoEnfermedad.id}">
+							<f:selectItem itemLabel="Seleccione Enfermedad"
+								noSelectionOption="true" />
+							<f:selectItem itemLabel="BAJA" itemValue="1" />
+							<f:selectItem itemLabel="MEDIA" itemValue="2" />
+							<f:selectItem itemLabel="AGUDA" itemValue="3" />
+						</p:selectOneMenu>
+						<p:commandButton value="Agregar"
+							actionListener="#{controladorPersona.agregarEnfermedad()}"
+							update="@form" />
+					</p:panelGrid>
+					<p:dataTable var="enfermemdad"
+						value="#{controladorPersona.objGesvacPersona.gesvacPersonaEnfermedads}"
+						emptyMessage="No tiene enfermedades registradas">
+						<p:column headerText="Enfermedad">
+							<p:outputLabel value="#{enfermemdad.gesvacEnfermedad.id}" />
+						</p:column>
+						<p:column headerText="Estado">
+							<p:outputLabel
+								value="#{enfermemdad.gesvacEstadoEnfermedad.id}" />
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+			</p:panel>
+
+		</h:form>
+	</div>
+</body>
+</html>

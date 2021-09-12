@@ -1,6 +1,7 @@
 package com.models;
 
-
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -8,7 +9,7 @@ import java.util.List;
  * The persistent class for the gesvac_persona database table.
  * 
  */
-public class GesvacPersona  {
+public class GesvacPersona {
 
 	private String cedula;
 
@@ -18,7 +19,7 @@ public class GesvacPersona  {
 
 	private String direcion;
 
-	private Date fechaNacimiento;
+	private String fechaNacimiento;
 
 	private String nombres;
 
@@ -63,11 +64,11 @@ public class GesvacPersona  {
 		this.direcion = direcion;
 	}
 
-	public Date getFechaNacimiento() {
-		return this.fechaNacimiento;
+	public String getFechaNacimiento() throws Exception {
+		return this.fechaNacimiento;	
 	}
 
-	public void setFechaNacimiento(Date fechaNacimiento) {
+	public void setFechaNacimiento(String fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 
