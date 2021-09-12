@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>SIGEERN</title>
+	<h:outputStylesheet library="css" name="estilos.css" />
+	<style>
+.fondo {
+	min-height: 100%;
+	height: auto !important;
+	background-image: url("resource/images/background_Emelnorte-01.png");
+	background-size: 101% 101%;
+}
+
+#posicion {
+	margin: 120px auto;
+	width: 99%;
+	font-size: 12px;
+}
+</style>
+</h:head>
+<body>
+	<div id="div_menu" align="left"
+		style="border: 0px groove navy; width: 99.4%; height: 81.9%; position: absolute; top: 0px; left: 5px;">
+		<div id="titulo_header" align="center"
+			style="width: 100%; font-size: 16px; line-height: 30px; background-color: navy; color: white">
+			<span>El código de usuario y contraseña de acceso es de manejo
+				personal e intransferible, cada usuario deberá ser responsable del
+				uso adecuado de este acceso.<h:outputText
+					value="#{beanLogin.credencial.correo}" />
+			</span>
+		</div>
+		<div align="center" class="fondo" style="border: 1px groove navy">
+			<div id="posicion">
+				<h:form id="form1">
+					<p:growl id="growl" showDetail="true" sticky="true" />
+					<p:panel id="panel1" header="ACCESO DE USUARIOS"
+						style="width:450px;border: 2px groove navy"
+						rendered="#{!formAcceso.cambioClave}">
+						<table align="center">
+							<tr>
+								<td width="80"><p:graphicImage
+										url="/resources/images/login.png" width="90%" /></td>
+								<td><p:panelGrid columns="2" styleClass="ui-noborder">
+										<h:outputText value="Usuario" style="font-weight:bold;" />
+										<h:panelGroup>
+											<p:inputText id="idUsuario" value="" required="true"
+												requiredMessage="Ingrese su código de usuario" />
+											<p:message for="idUsuario" />
+										</h:panelGroup>
+										<h:outputText value="Clave:" style="font-weight:bold;" />
+										<h:panelGroup>
+											<p:password id="clave" value="" required="true"
+												requiredMessage="Se requiere una contraseña" />
+											<p:message for="clave" />
+										</h:panelGroup>
+										<p:outputLabel />
+										<p:commandButton value="Ingresar" update="@form"
+											style="width:150px" icon="ui-icon-newwin" />
+									</p:panelGrid></td>
+							</tr>
+						</table>
+					</p:panel>
+				</h:form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
